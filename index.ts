@@ -20,6 +20,7 @@ const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
 
   const page = await browser.newPage();
 
+  // ----------------------------------------------
   // 로그인
   await page.goto("https://etk.srail.kr/cmc/01/selectLoginForm.do");
   await page.type("#srchDvNm01", "");
@@ -34,9 +35,9 @@ const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
   // ----------------------------------------------
   // 메인 페이지
 
-  const popup = await new Promise((x) => page.once("popup", x));
-  await (popup as Page).close();
-
+  // 팝업창 닫기
+  // const popup = await new Promise((x) => page.once("popup", x));
+  // await (popup as Page).close();
   await page.select("#dptRsStnCd", Region[START]);
   await page.select("#arvRsStnCd", Region[END]);
   await page.$eval(
@@ -50,6 +51,7 @@ const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
   await page.click("#search-form > fieldset > a");
   await page.waitForNavigation();
 
+  // ----------------------------------------------
   // 예매 페이지
   while (
     await page.$$eval("table > tbody td:nth-child(7) a", (el) => {
