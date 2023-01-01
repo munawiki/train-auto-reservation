@@ -1,11 +1,11 @@
-import puppeteer, { ElementHandle } from "puppeteer";
+import puppeteer, { Page } from "puppeteer";
 import { Time, Region } from "./variables";
 
 const ID = "YOUR ID";
 const PASSWORD = "YOUR PASSWORD";
 
-const START: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
-const END: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+const START: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+const END: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
 const DATE = "2023.01.02";
 const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
 
@@ -34,8 +34,8 @@ const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
   // ----------------------------------------------
   // 메인 페이지
 
-  // const popup = await new Promise((x) => page.once("popup", x));
-  // await (popup as Page).close();
+  const popup = await new Promise((x) => page.once("popup", x));
+  await (popup as Page).close();
 
   await page.select("#dptRsStnCd", Region[START]);
   await page.select("#arvRsStnCd", Region[END]);
