@@ -23,8 +23,8 @@ const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
   // ----------------------------------------------
   // 로그인
   await page.goto("https://etk.srail.kr/cmc/01/selectLoginForm.do");
-  await page.type("#srchDvNm01", "");
-  await page.type("#hmpgPwdCphd01", "");
+  await page.type("#srchDvNm01", ID);
+  await page.type("#hmpgPwdCphd01", PASSWORD);
 
   await page.click(
     "#login-form > fieldset > div.input-area.loginpage.clear > div.fl_l > div.con.srchDvCd1 > div > div.fl_r > input"
