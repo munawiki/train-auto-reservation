@@ -1,15 +1,15 @@
 import puppeteer, { Page } from "puppeteer";
 import { Time, Region } from "./variables";
 
-const ID = "YOUR ID";
+const ID = "YOUR ACCOUNT";
 const PASSWORD = "YOUR PASSWORD";
 
 const START: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
 const END: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
-const DATE = "2023.01.04";
-const TIME: Time = "00"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
-const WANT_TIME = "07"; // 원하는 출발 시간에 가장 가까운 시간
-const WANT_MINUTE = "23"; // 원하는 출발 시간에 가장 가까운 분
+const DATE = "2023.01.19";
+const TIME: Time = "18"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
+const WANT_TIME = "18"; // 원하는 출발 시간에 가장 가까운 시간
+const WANT_MINUTE = "30"; // 원하는 출발 시간에 가장 가까운 분
 
 (async function () {
   const browser = await puppeteer.launch({
@@ -78,10 +78,10 @@ const WANT_MINUTE = "23"; // 원하는 출발 시간에 가장 가까운 분
 
         if (reservations.length > 0) {
           reservations[0][1].click();
-          return true;
+          return false;
         }
 
-        return false;
+        return true;
       },
       DATE,
       WANT_TIME,
