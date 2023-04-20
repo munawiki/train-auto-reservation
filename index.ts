@@ -1,15 +1,18 @@
 import puppeteer, { Page } from "puppeteer";
 import { Time, Region } from "./variables";
 
-const ID = "YOUR ACCOUNT";
-const PASSWORD = "YOUR PASSWORD";
+const ID = "YOUR_ID";
+const PASSWORD = "YOUR_PASSWORD";
 
 const START: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
 const END: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
-const DATE = "2023.01.19";
-const TIME: Time = "18"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
-const WANT_TIME = "18"; // 원하는 출발 시간에 가장 가까운 시간
-const WANT_MINUTE = "30"; // 원하는 출발 시간에 가장 가까운 분
+
+const DATE = "2023.04.20";
+const TIME: Time = "14"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
+const WANT_START_TIME = "15"; // 원하는 출발 시간
+const WANT_START_MINUTE = "00"; // 원하는 출발 분
+const WANT_END_TIME = "16"; // 원하는 도착 시간
+const WANT_END_MINUTE = "00"; // 원하는 도착 분
 
 (async function () {
   const browser = await puppeteer.launch({
@@ -60,21 +63,32 @@ const WANT_MINUTE = "30"; // 원하는 출발 시간에 가장 가까운 분
   while (
     await page.$$eval(
       "table > tbody > tr",
-      (el, DATE, WANT_TIME, WANT_MINUTE) => {
+      (
+        el,
+        DATE,
+        WANT_START_TIME,
+        WANT_START_MINUTE,
+        WANT_END_TIME,
+        WANT_END_MINUTE
+      ) => {
         const reservations = [...el]
           .filter((v) => v.children[6].children[0].textContent === "예약하기")
           .map((v): [string, HTMLElement] => [
             v.children[3].textContent?.slice(-5) || "00:00",
             v.children[6].children[0] as HTMLElement,
           ])
-          .map(([time, el]): [number, HTMLElement] => [
-            Math.abs(
-              new Date(`${DATE} ${WANT_TIME}:${WANT_MINUTE}`).getTime() -
-                new Date(`${DATE} ${time}`).getTime()
-            ),
-            el,
-          ])
-          .sort((a, b) => a[0] - b[0]);
+          .filter(([time, el]) => {
+            const gotTime = new Date(`${DATE} ${time}`).getTime();
+            const wantStartTime = new Date(
+              `${DATE} ${WANT_START_TIME}:${WANT_END_TIME}`
+            ).getTime();
+            const wantEndTime = new Date(
+              `${DATE} ${WANT_END_TIME}:${WANT_END_MINUTE}`
+            ).getTime();
+
+            return gotTime >= wantStartTime && gotTime <= wantEndTime;
+          })
+          .sort((a, b) => Number(a[0]) - Number(b[0]));
 
         if (reservations.length > 0) {
           reservations[0][1].click();
@@ -84,27 +98,12 @@ const WANT_MINUTE = "30"; // 원하는 출발 시간에 가장 가까운 분
         return true;
       },
       DATE,
-      WANT_TIME,
-      WANT_MINUTE
+      WANT_START_TIME,
+      WANT_START_MINUTE,
+      WANT_END_TIME,
+      WANT_END_MINUTE
     )
   ) {
     await page.reload();
   }
-
-  // while (
-  //   await page.$$eval("table > tbody td:nth-child(7) a", (el) => {
-  //     const reservations = [...el]
-  //       .filter((v) => v.textContent === "예약하기")
-  //       .map((v) => v);
-
-  //     if (reservations.length > 0) {
-  //       reservations[0].click();
-  //       return false;
-  //     }
-
-  //     return true;
-  //   })
-  // ) {
-  //   await page.reload();
-  // }
 })();
