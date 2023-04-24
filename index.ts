@@ -4,15 +4,15 @@ import { Time, Region } from "./variables";
 const ID = "YOUR_ID";
 const PASSWORD = "YOUR_PASSWORD";
 
-const START: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
-const END: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+const START: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+const END: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
 
-const DATE = "2023.04.20";
-const TIME: Time = "14"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
-const WANT_START_TIME = "15"; // 원하는 출발 시간
-const WANT_START_MINUTE = "00"; // 원하는 출발 분
-const WANT_END_TIME = "16"; // 원하는 도착 시간
-const WANT_END_MINUTE = "00"; // 원하는 도착 분
+const DATE = "2023.04.24";
+const TIME: Time = "10"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
+const WANT_START_TIME = "11"; // 원하는 출발 시간 시작
+const WANT_START_MINUTE = "00"; // 원하는 출발 분 시작
+const WANT_END_TIME = "11"; // 원하는 출발 시간 끝
+const WANT_END_MINUTE = "10"; // 원하는 출발 분 끝
 
 (async function () {
   const browser = await puppeteer.launch({
@@ -80,7 +80,7 @@ const WANT_END_MINUTE = "00"; // 원하는 도착 분
           .filter(([time, el]) => {
             const gotTime = new Date(`${DATE} ${time}`).getTime();
             const wantStartTime = new Date(
-              `${DATE} ${WANT_START_TIME}:${WANT_END_TIME}`
+              `${DATE} ${WANT_START_TIME}:${WANT_START_MINUTE}`
             ).getTime();
             const wantEndTime = new Date(
               `${DATE} ${WANT_END_TIME}:${WANT_END_MINUTE}`
