@@ -1,18 +1,23 @@
 import puppeteer, { Page } from "puppeteer";
 import { Time, Region } from "./variables";
+import dotenv from "dotenv";
 
-const ID = "YOUR_ID";
-const PASSWORD = "YOUR_PASSWORD";
+dotenv.config();
 
-const START: Region = "동대구"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
-const END: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+const ID = process.env.ID;
+const PASSWORD = process.env.PASSWORD;
 
-const DATE = "2023.04.24";
-const TIME: Time = "10"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
-const WANT_START_TIME = "11"; // 원하는 출발 시간 시작
-const WANT_START_MINUTE = "00"; // 원하는 출발 분 시작
-const WANT_END_TIME = "11"; // 원하는 출발 시간 끝
-const WANT_END_MINUTE = "10"; // 원하는 출발 분 끝
+if (!ID || !PASSWORD) throw new Error("ID or PASSWORD is not defined");
+
+const START: Region = "수서"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+const END: Region = "울산통도사"; // 서울, 수서, 동탄, 평택지제, 천안아산, 오송, 대전, 김천구미, 서대구, 동대구, 신경주, 울산통도사, 부산, 공주, 익산, 정읍, 광주송정, 나주, 목포
+
+const DATE = "2023.05.04";
+const TIME: Time = "18"; // 00, 02, 04, 06, 08, 10, 12, 14, 16, 18, 20, 22
+const WANT_START_TIME = "18"; // 원하는 출발 시간 시작
+const WANT_START_MINUTE = "10"; // 원하는 출발 분 시작
+const WANT_END_TIME = "22"; // 원하는 출발 시간 끝
+const WANT_END_MINUTE = "00"; // 원하는 출발 분 끝
 
 (async function () {
   const browser = await puppeteer.launch({
