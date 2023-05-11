@@ -106,28 +106,28 @@ const WANT_END_MINUTE = "00"; // 원하는 출발 분 끝
           // 특실
 
           const _reservations = [...el]
-          .filter((v) => v.children[5].children[0].textContent === "예약하기")
-          .map((v): [string, HTMLElement] => [
-            v.children[3].textContent?.slice(-5) || "00:00",
-            v.children[5].children[0] as HTMLElement,
-          ])
-          .filter(([time, el]) => {
-            const gotTime = new Date(`${DATE} ${time}`).getTime();
-            const wantStartTime = new Date(
-              `${DATE} ${WANT_START_TIME}:${WANT_START_MINUTE}`
-            ).getTime();
-            const wantEndTime = new Date(
-              `${DATE} ${WANT_END_TIME}:${WANT_END_MINUTE}`
-            ).getTime();
+            .filter((v) => v.children[5].children[0].textContent === "예약하기")
+            .map((v): [string, HTMLElement] => [
+              v.children[3].textContent?.slice(-5) || "00:00",
+              v.children[5].children[0] as HTMLElement,
+            ])
+            .filter(([time, el]) => {
+              const gotTime = new Date(`${DATE} ${time}`).getTime();
+              const wantStartTime = new Date(
+                `${DATE} ${WANT_START_TIME}:${WANT_START_MINUTE}`
+              ).getTime();
+              const wantEndTime = new Date(
+                `${DATE} ${WANT_END_TIME}:${WANT_END_MINUTE}`
+              ).getTime();
 
-            return gotTime >= wantStartTime && gotTime <= wantEndTime;
-          })
-          .sort((a, b) => Number(a[0]) - Number(b[0]));
+              return gotTime >= wantStartTime && gotTime <= wantEndTime;
+            })
+            .sort((a, b) => Number(a[0]) - Number(b[0]));
 
-        if (_reservations.length > 0) {
-          reservations[0][1].click();
-          return false;
-        }
+          if (_reservations.length > 0) {
+            reservations[0][1].click();
+            return false;
+          }
 
           return true;
         },
@@ -142,13 +142,13 @@ const WANT_END_MINUTE = "00"; // 원하는 출발 분 끝
     }
 
     await page.waitForNavigation();
-    const alertBox = await page.$('.alert_box');
+    const alertBox = await page.$(".alert_box");
 
-    if(alertBox) {
-      console.log('예약 완료')
+    if (alertBox) {
+      console.log("예약 완료");
       break;
-    }else{
-      console.log('재시도')
+    } else {
+      console.log("재시도");
       await page.goBack();
     }
   }
