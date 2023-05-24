@@ -125,7 +125,7 @@ const WANT_END_MINUTE = "00"; // 원하는 출발 분 끝
             .sort((a, b) => Number(a[0]) - Number(b[0]));
 
           if (_reservations.length > 0) {
-            reservations[0][1].click();
+            _reservations[0][1].click();
             return false;
           }
 
